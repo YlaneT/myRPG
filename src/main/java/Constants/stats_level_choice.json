@@ -6,7 +6,7 @@
 		"MAGIC_RESISTANCE": 1,
 		"MANA": 15,
 		"PERCENT_MANA_REGENERATION": 7.5,
-		"HEAL_SHIELD": 5,
+		"HEAL_SHIELD": 5
     },
     "mage": {
 		"ATTACK_DAMAGE": -2,
@@ -15,14 +15,14 @@
 		"MAGIC_RESISTANCE":0.5,
 		"MANA": 30,
 		"PERCENT_MANA_REGENERATION": 8.5,
-		"HEAL_SHIELD": 3,
+		"HEAL_SHIELD": 3
 	},
     "warrior": {
 		"ATTACK_DAMAGE": 3,
 		"HEALTH": 11,
 		"PERCENT_HEALTH_REGENERATION": 2.5,
 		"MANA": -10,
-		"HEAL_SHIELD": 5,
+		"HEAL_SHIELD": 5
 	},
     "assassin": {
 		"ATTACK_DAMAGE": 5,
@@ -41,6 +41,6 @@
 		"MAGIC_RESISTANCE": 5,
 		"PERCENT_HEALTH_REGENERATION": 5,
 		"MANA": -5,
-		"HEAL_SHIELD": 5,
-	},
+		"HEAL_SHIELD": 5
+	}
 }

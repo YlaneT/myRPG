@@ -2,5 +2,6 @@ package Constants;
 
 public enum Side {
 	ALLY,
-	ENEMY
+	ENEMY,
+	NEUTRAL,
 }

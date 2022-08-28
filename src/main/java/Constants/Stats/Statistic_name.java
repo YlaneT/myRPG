@@ -1,4 +1,4 @@
-package Constants;
+package Constants.Stats;
 
 public enum Statistic_name {
 	// OFFENSE
@@ -7,13 +7,23 @@ public enum Statistic_name {
 	CRITICAL_CHANCE,
 	CRITICAL_DAMAGE,
 	// DEFENSE
+	// Health
+	MAX_HEALTH,
 	HEALTH,
+	HEALTH_REGENERATION,
+	HP_REGEN_AUGMENT,
+	// Damage Reduction
 	ARMOR,
 	MAGIC_RESISTANCE,
-	HEALTH_REGENERATION,
 	// RESOURCE
+	// Mana
+	MAX_MANA,
 	MANA,
 	MANA_REGENERATION,
+	MANA_REGEN_AUGMENT,
+	// Energy
+	MAX_ENERGY,
+	ENERGY,
 	// UTILITY
 	HEAL_SHIELD,
 	ABILITY_HASTE,

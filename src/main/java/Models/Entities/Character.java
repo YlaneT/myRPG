@@ -1,137 +1,107 @@
 package Models.Entities;
 
+import Constants.Damage_Type;
 import Constants.Side;
-import Constants.Statistic_name;
-import Models.Information.Statistics;
+import Constants.Stats.Statistic_name;
+import Models.Information.*;
+import lombok.Data;
 
+import java.util.ArrayList;
+
+import static Constants.Stats.Statistic_name.*;
+
+@Data
 public class Character {
 	String     name;
 	int        level;
-	Statistics stats;
 	Side       side;
+	Gauge      health;
+	Gauge      mana;
+	Gauge      energy;
+	Statistics baseStats;
+	Statistics currentStats;
 	
 	public Character (String name, Side side) {
 		this.name = name;
 		this.level = 1;
 		this.side = side;
-		setCharacterstats();
+		initCharacterstats(getCharacterStats());
 	}
 	
-	private void setCharacterstats () {
-		this.setEachStat(50, 0, 0, 30, 600, 23, 27, 4, 265, 6, 0, 0);
-	}
-	
-	public int getStat (Statistic_name name) {
-		if (name.equals(Statistic_name.ATTACK_DAMAGE)) {
-			return getStats().getATTACK_DAMAGE();
-		}
-		else if (name.equals(Statistic_name.ABILITY_POWER)) {
-			return getStats().getABILITY_POWER();
-		}
-		else if (name.equals(Statistic_name.CRITICAL_CHANCE)) {
-			return getStats().getCRITICAL_CHANCE();
-		}
-		else if (name.equals(Statistic_name.CRITICAL_DAMAGE)) {
-			return getStats().getCRITICAL_DAMAGE();
-		}
-		else if (name.equals(Statistic_name.HEALTH)) {
-			return getStats().getHEALTH();
-		}
-		else if (name.equals(Statistic_name.ARMOR)) {
-			return getStats().getARMOR();
-		}
-		else if (name.equals(Statistic_name.MAGIC_RESISTANCE)) {
-			return getStats().getMAGIC_RESISTANCE();
-		}
-		else if (name.equals(Statistic_name.HEALTH_REGENERATION)) {
-			return getStats().getHEALTH_REGENERATION();
-		}
-		else if (name.equals(Statistic_name.MANA)) {
-			return getStats().getMANA();
-		}
-		else if (name.equals(Statistic_name.MANA_REGENERATION)) {
-			return getStats().getMANA_REGENERATION();
-		}
-		else if (name.equals(Statistic_name.HEAL_SHIELD)) {
-			return getStats().getHEAL_SHIELD();
-		}
-		else if (name.equals(Statistic_name.ABILITY_HASTE)) {
-			return getStats().getABILITY_HASTE();
-		}
-		else {
-			System.err.println("Error getting stat { " + name + " }");
-			return -1;
-		}
-	}
-	
-	public void setStat (Statistic_name name, int value) {
-		if (name.equals(Statistic_name.ATTACK_DAMAGE)) {
-			getStats().setATTACK_DAMAGE(value);
-		}
-		else if (name.equals(Statistic_name.ABILITY_POWER)) {
-			getStats().setABILITY_POWER(value);
-		}
-		else if (name.equals(Statistic_name.CRITICAL_CHANCE)) {
-			getStats().setCRITICAL_CHANCE(value);
-		}
-		else if (name.equals(Statistic_name.CRITICAL_DAMAGE)) {
-			getStats().setCRITICAL_DAMAGE(value);
-		}
-		else if (name.equals(Statistic_name.HEALTH)) {
-			getStats().setHEALTH(value);
-		}
-		else if (name.equals(Statistic_name.ARMOR)) {
-			getStats().setARMOR(value);
-		}
-		else if (name.equals(Statistic_name.MAGIC_RESISTANCE)) {
-			getStats().setMAGIC_RESISTANCE(value);
-		}
-		else if (name.equals(Statistic_name.HEALTH_REGENERATION)) {
-			getStats().setHEALTH_REGENERATION(value);
-		}
-		else if (name.equals(Statistic_name.MANA)) {
-			getStats().setMANA(value);
-		}
-		else if (name.equals(Statistic_name.MANA_REGENERATION)) {
-			getStats().setMANA_REGENERATION(value);
-		}
-		else if (name.equals(Statistic_name.HEAL_SHIELD)) {
-			getStats().setHEAL_SHIELD(value);
-		}
-		else if (name.equals(Statistic_name.ABILITY_HASTE)) {
-			getStats().setABILITY_HASTE(value);
-		}
-		else {
-			System.err.println("Error setting stat { " + name + " / " + value + " }");
-		}
-	}
-	
-	public String getName () {
-		return name;
-	}
-	
-	public void setName (String name) {
-		this.name = name;
-	}
-	
-	public int getLevel () {
-		return level;
-	}
-	
-	public void setLevel (int level) {
-		this.level = level;
-	}
-	
-	public Statistics getStats () {
+	private ArrayList<Statistic> getCharacterStats () {
+		ArrayList<Statistic> stats = new ArrayList<Statistic>();
+		// TODO : Récupérer les valeurs dans stats_base.json
 		return stats;
 	}
 	
-	public void setStats (Statistics stats) {
-		this.stats = stats;
+	private void initCharacterstats (ArrayList<Statistic> stats) {
+		// TODO : Affecter à baseStats et gauge
 	}
 	
-	public void setEachStat (int ad, int ap, int cc, int cd, int hp, int ar, int mr, int hp_s, int mana, int mana_s,
-		int heal, int ah) {
-		getStats().setAll(ad, ap, cc, cd, hp, ar, mr, hp_s, mana, mana_s, heal, ah);
+	private double getBaseStatByName (Statistic_name name) {
+		return getBaseStats().getStatByName(name);
+	}
+	
+	private double getCurrentStatByName (Statistic_name name) {
+		return getCurrentStats().getStatByName(name);
+	}
+	
+	private void setBaseStatByName (Statistic_name name, double value) {
+		getBaseStats().setStatByName(name, value);
+	}
+	
+	private void setCurrentStatByName (Statistic_name name, double value) {
+		getCurrentStats().setStatByName(name, value);
+	}
+	
+	private int getMaxHealth () {
+		return (int) getHealth().getMax();
+	}
+	
+	private int getCurrentHealth () {
+		return (int) getHealth().getCurrent();
+	}
+	
+	private int getMaxMana () {
+		return (int) getMana().getMax();
+	}
+	
+	private int getCurrentMana () {
+		return (int) getMana().getCurrent();
+	}
+	
+	private int getMaxEnergy () {
+		return (int) getEnergy().getMax();
+	}
+	
+	private int getCurrentEnergy () {
+		return (int) getEnergy().getCurrent();
+	}
+	
+	private void receiveDamage (Damage_Type type, double amount) {
+		// TODO : Effects to reduce damage (flat)
+		// TODO : Effects to reduce damage (percent) (Armor / MR)
+	}
+	
+	private void addExp () {}
+	
+	private void levelUp () {}
+	
+	@Override
+	public String toString () {
+		StringBuilder sb;
+		sb = new StringBuilder();
+		sb.append("==============================");
+		sb.append(side.toString().toUpperCase()).append(" \t").append(name.toUpperCase()).append("\n");
+		sb.append("------------------------------\n");
+		sb.append("Level           \t").append(level).append("\n");
+		sb.append("Attack damage   \t").append(ATTACK_DAMAGE).append("\n");
+		sb.append("Ability power   \t").append(ABILITY_POWER).append("\n");
+		sb.append("Health          \t").append(HEALTH).append("\n");
+		sb.append("Armor           \t").append(ARMOR).append("\n");
+		sb.append("Magic resistance\t").append(MAGIC_RESISTANCE).append("\n");
+		sb.append("Mana            \t").append(MANA).append("\n");
+		sb.append("==============================\n");
+		return sb.toString();
 	}
 }

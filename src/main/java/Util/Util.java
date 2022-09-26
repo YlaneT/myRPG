@@ -5,6 +5,10 @@ public class Util {
 		return Math.max(0, base - dec);
 	}
 	
+	public static double minus (double base, double dec) {
+		return Math.max(0, base - dec);
+	}
+	
 	public static int fibo (int n) {
 		if (n < 2) {
 			return n;

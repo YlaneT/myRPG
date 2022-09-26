@@ -1,6 +1,6 @@
-package Model.Status_Effects;
+package Models.Status_Effects;
 
-import static Model.Status_Effects.StatusTypes.FIRE;
+import static Models.Status_Effects.StatusTypes.FIRE;
 
 public class StatusFire extends Status {
 	public StatusFire () {

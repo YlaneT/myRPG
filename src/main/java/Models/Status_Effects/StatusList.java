@@ -1,9 +1,8 @@
-package Model.Status_Effects;
+package Models.Status_Effects;
 
 import Constants.Moment;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class StatusList {
 	ArrayList<Status> statuses;

@@ -1,6 +1,5 @@
-package Model.Status_Effects;
+package Models.Status_Effects;
 
-import Util.Util;
 import lombok.Data;
 
 import static Util.Util.minus;

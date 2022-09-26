@@ -1,4 +1,4 @@
-package Model.Skills;
+package Models.Skills;
 
 abstract class AbstractSkill {
 	double cooldown;

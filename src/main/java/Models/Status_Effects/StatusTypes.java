@@ -1,4 +1,4 @@
-package Model.Status_Effects;
+package Models.Status_Effects;
 
 public enum StatusTypes {
 	FIRE,

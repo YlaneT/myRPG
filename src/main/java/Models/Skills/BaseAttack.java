@@ -1,4 +1,4 @@
-package Model.Skills;
+package Models.Skills;
 
 public class BaseAttack extends Skill {
 	public BaseAttack () {

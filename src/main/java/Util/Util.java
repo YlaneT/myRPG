@@ -26,7 +26,9 @@ public class Util {
 	}
 	
 	public static int reverse_facto (int n) {
-		// FIXME to not be used with n == 0
+		if (n == 0) {
+			return 0;
+		}
 		int max_facto = 1;
 		int result    = 0;
 		int i         = 1;

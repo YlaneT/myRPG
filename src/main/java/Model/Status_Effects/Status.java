@@ -1,20 +1,22 @@
-package Model.Effects;
+package Model.Status_Effects;
 
-
-import Constants.Moment;
+import Util.Util;
 import lombok.Data;
 
 import static Util.Util.minus;
 
 @Data
-public abstract class Effect {
-	public int           duration;
-	// Character launcher
-	// Character target
-	public Effects_types type;
-	public Moment        phase;
+public class Status {
+	public int         duration;
+	public Effect      statusEffect;
+	public StatusTypes type;
 	
-	abstract void apply ();
+	void apply () {
+		if (duration != 0) {
+			decrement_duration();
+			statusEffect.apply();
+		}
+	}
 	
 	void decrement_duration (int value) {
 		this.duration = minus(this.duration, value);

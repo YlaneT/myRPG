@@ -8,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 
 public class UtilTest {
 	@Test
-	void somme_entiersTest () {
+	public void somme_entiersTest () {
 		assertEquals(0, somme_entiers(0));
 		assertEquals(1, somme_entiers(1));
 		assertEquals(3, somme_entiers(2));
@@ -21,7 +21,7 @@ public class UtilTest {
 	}
 	
 	@Test
-	void fiboTest () {
+	public void fiboTest () {
 		assertEquals(0, fibo(0));
 		assertEquals(1, fibo(1));
 		assertEquals(1, fibo(2));
@@ -35,7 +35,7 @@ public class UtilTest {
 	
 	
 	@Test
-	void factoTest () {
+	public void factoTest () {
 		assertEquals(1, facto(0));
 		assertEquals(1, facto(1));
 		assertEquals(2, facto(2));
@@ -45,11 +45,12 @@ public class UtilTest {
 		assertEquals(720, facto(6));
 		assertEquals(5040, facto(7));
 		assertEquals(479001600, facto(12));
+		assertEquals(479001600, facto(14));
 	}
 	
 	@Test
-	void reverse_factoTest () {
-		assertEquals(0, reverse_facto(1));
+	public void reverse_factoTest () {
+		assertEquals(1, reverse_facto(1));
 		assertEquals(2, reverse_facto(3));
 		assertEquals(3, reverse_facto(9));
 		assertEquals(4, reverse_facto(27));
@@ -64,5 +65,6 @@ public class UtilTest {
 		assertEquals(9, reverse_facto(531441));
 		assertEquals(9, reverse_facto(1594323));
 		assertEquals(10, reverse_facto(3628800));
+		assertEquals(12, reverse_facto(479009999));
 	}
 }

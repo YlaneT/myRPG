@@ -1,6 +1,9 @@
 package Util;
 
 public class Util {
+	
+	static final int MAXFACTO = 12;
+	
 	public static int minus (int base, int dec) {
 		return Math.max(0, base - dec);
 	}
@@ -21,8 +24,11 @@ public class Util {
 	}
 	
 	public static int facto (int n) {
-		// FIXME : Erreur si n > 12 (too long int)
 		int total = 1;
+		if (n > MAXFACTO) {
+			System.err.println("Util.facto() called with n > " + MAXFACTO + " (" + n + ")");
+			n = MAXFACTO;
+		}
 		for(int i = 2 ; i <= n ; i++) {
 			total *= i;
 		}
@@ -31,15 +37,18 @@ public class Util {
 	
 	public static int reverse_facto (int n) {
 		if (n == 0) {
-			return 0;
+			return 1;
 		}
-		int max_facto = 1;
-		int result    = 0;
-		int i         = 1;
-		while (max_facto < n) {
-			result += 1;
-			max_facto *= i + 1;
+		int facto = 1;
+		for(int i = 1 ; i <= MAXFACTO ; i++) {
+			facto = facto * i;
+			if (facto == n) {
+				return i;
+			}
+			else if (facto > n) {
+				return i - 1;
+			}
 		}
-		return result;
+		return MAXFACTO;
 	}
 }

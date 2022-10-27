@@ -1,49 +1,79 @@
 package Models.Entities;
 
-import Constants.Damage_Type;
 import Constants.Side;
-import Constants.Stats.Statistic_name;
+import Constants.Stats.DD_Stats;
 import Models.Information.*;
 import lombok.Data;
-
-import java.util.ArrayList;
-
-import static Constants.Stats.Statistic_name.*;
+import org.json.simple.parser.JSONParser;
 
 @Data
-public class Character {
-	String     name;
-	int        level;
-	Side       side;
-	Gauge      health;
-	Gauge      mana;
-	Gauge      energy;
-	Statistics baseStats;
-	Statistics currentStats;
+public abstract class Character {
+	String       name;
+	Side         side;
+	Gauge        health;
+	Gauge        mana;
+	//	Gauge        energy;
+	//	Gauge        exp;
+	PrimaryStats primaryStats;
+	Statistics   baseStats;
+	Statistics   bonusStats;
 	
+	/* CONSTRUCTORS */
+	// Create character lvl 0
 	public Character (String name, Side side) {
 		this.name = name;
-		this.level = 1;
 		this.side = side;
-		initCharacterstats(getCharacterStats());
+		primaryStats = new PrimaryStats();
+		initCharacterstats();
+		initGauges();
 	}
 	
-	private ArrayList<Statistic> getCharacterStats () {
-		ArrayList<Statistic> stats = new ArrayList<Statistic>();
-		// TODO : Récupérer les valeurs dans stats_base.json
-		return stats;
+	// Specialized (all stats points in the same stat)
+	
+	/** Create a *specialized* preset Character with all its stats points on the same stat */
+	public Character (String name, Side side, int level, DD_Stats specialization) {
+		this.name = name;
+		this.side = side;
+		primaryStats = new PrimaryStats();
+		primaryStats.setLevel(level);
+		primaryStats.setStat(specialization, level);
+		initCharacterstats();
+		initGauges();
 	}
 	
-	private void initCharacterstats (ArrayList<Statistic> stats) {
-		// TODO : Affecter à baseStats et gauge
+	/** Create a preset Character with a pattern "Mage" / "Tank" / "Random" */
+	public Character (String name, Side side, int level, String pattern) {
+		this.name = name;
+		this.side = side;
+		primaryStats = new PrimaryStats();
+		primaryStats.setLevel(level);
+		primaryStats.pattern(level, pattern);
+		initCharacterstats();
+		initGauges();
 	}
 	
-	private double getBaseStatByName (Statistic_name name) {
+	abstract protected void initGauges (); // Different json for each type of Character
+	// Can be made with a parameter *String filename*
+	
+	
+	protected void initCharacterstats () {
+		JSONParser parser = new JSONParser();
+		// init Statistics niv 0 ( nécessite une CONSTANTE dans chaque classe avec le nom du fichier qui les contient )
+		
+		// init Statistics en fonction des PrimaryStats
+		
+	}
+	
+/*	private double getBaseStatByName (Statistic_name name) {
 		return getBaseStats().getStatByName(name);
 	}
 	
-	private double getCurrentStatByName (Statistic_name name) {
-		return getCurrentStats().getStatByName(name);
+	protected double getBonusStatByName (Statistic_name name) {
+		return getBonusStats().getStatByName(name);
+	}
+	
+	protected double getCurrentStatByName (Statistic_name name) {
+		return getBaseStatByName(name) + getBonusStatByName(name);
 	}
 	
 	private void setBaseStatByName (Statistic_name name, double value) {
@@ -51,32 +81,9 @@ public class Character {
 	}
 	
 	private void setCurrentStatByName (Statistic_name name, double value) {
-		getCurrentStats().setStatByName(name, value);
+		getBonusStats().setStatByName(name, value);
 	}
 	
-	private int getMaxHealth () {
-		return (int) getHealth().getMax();
-	}
-	
-	private int getCurrentHealth () {
-		return (int) getHealth().getCurrent();
-	}
-	
-	private int getMaxMana () {
-		return (int) getMana().getMax();
-	}
-	
-	private int getCurrentMana () {
-		return (int) getMana().getCurrent();
-	}
-	
-	private int getMaxEnergy () {
-		return (int) getEnergy().getMax();
-	}
-	
-	private int getCurrentEnergy () {
-		return (int) getEnergy().getCurrent();
-	}
 	
 	private void receiveDamage (Damage_Type type, double amount) {
 		// TODO : Effects to reduce damage (flat)
@@ -85,23 +92,49 @@ public class Character {
 	
 	private void addExp () {}
 	
-	private void levelUp () {}
+	private void levelUp () {}*/
 	
-	@Override
+/*	@Override
 	public String toString () {
 		StringBuilder sb;
 		sb = new StringBuilder();
-		sb.append("==============================");
+		// FIXME : A TESTER
+		// FIXME : .append(stat_name) doesn't show stat value
+		sb.append(UtilMenu.title(getSide() + " : " + name.toUpperCase())).append("\n");
 		sb.append(side.toString().toUpperCase()).append(" \t").append(name.toUpperCase()).append("\n");
-		sb.append("------------------------------\n");
-		sb.append("Level           \t").append(level).append("\n");
-		sb.append("Attack damage   \t").append(ATTACK_DAMAGE).append("\n");
-		sb.append("Ability power   \t").append(ABILITY_POWER).append("\n");
-		sb.append("Health          \t").append(HEALTH).append("\n");
-		sb.append("Armor           \t").append(ARMOR).append("\n");
-		sb.append("Magic resistance\t").append(MAGIC_RESISTANCE).append("\n");
-		sb.append("Mana            \t").append(MANA).append("\n");
-		sb.append("==============================\n");
+		sb.append("Level           \t").append(getLevel()).append("\n");
+		sb.append("Attack damage   \t").append(getCurrentStatByName(ATTACK_DAMAGE)).append("\n");
+		sb.append("Ability power   \t").append(getCurrentStatByName(ABILITY_POWER)).append("\n");
+		sb.append("Health          \t").append(getCurrentStatByName(HEALTH)).append("\n");
+		sb.append("Armor           \t").append(getCurrentStatByName(ARMOR)).append("\n");
+		sb.append("Magic resistance\t").append(getCurrentStatByName(MAGIC_RESISTANCE)).append("\n");
+		sb.append("Mana            \t").append(getCurrentStatByName(MANA)).append("\n");
+		sb.append("=".repeat(50) + "\n");
 		return sb.toString();
+	}*/
+	
+	/* FAST GETTERS */
+	protected int getLevel () {
+		return getPrimaryStats().getLevel();
+	}
+	
+	protected int getFOR () {
+		return getPrimaryStats().getForce();
+	}
+	
+	protected int getDEX () {
+		return getPrimaryStats().getDexterity();
+	}
+	
+	protected int getINT () {
+		return getPrimaryStats().getIntelligence();
+	}
+	
+	protected int getCON () {
+		return getPrimaryStats().getConstitution();
+	}
+	
+	protected int getWIS () {
+		return getPrimaryStats().getWisdom();
 	}
 }

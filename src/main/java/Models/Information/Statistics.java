@@ -28,7 +28,7 @@ public class Statistics {
 				return getARMOR();
 			case MAGIC_RESISTANCE:
 				return getMAGIC_RESISTANCE();
-			case HEAL_SHIELD:
+			case HEAL:
 				return getHEAL_SHIELD();
 			case ABILITY_HASTE:
 				return getABILITY_HASTE();
@@ -59,7 +59,7 @@ public class Statistics {
 			case MAGIC_RESISTANCE:
 				setMAGIC_RESISTANCE(value);
 				break;
-			case HEAL_SHIELD:
+			case HEAL:
 				setHEAL_SHIELD(value);
 				break;
 			case ABILITY_HASTE:

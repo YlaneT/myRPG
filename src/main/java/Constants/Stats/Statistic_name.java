@@ -11,7 +11,7 @@ public enum Statistic_name {
 	MAX_HEALTH,
 	HEALTH,
 	HEALTH_REGENERATION,
-	HP_REGEN_AUGMENT,
+	HEALTH_REGEN_AUGMENT,
 	// Damage Reduction
 	ARMOR,
 	MAGIC_RESISTANCE,
@@ -25,6 +25,7 @@ public enum Statistic_name {
 	MAX_ENERGY,
 	ENERGY,
 	// UTILITY
-	HEAL_SHIELD,
+	HEAL,
+	SHIELD,
 	ABILITY_HASTE,
 }

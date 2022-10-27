@@ -20,6 +20,10 @@ public class Gauge {
 		current = max;
 	}
 	
+	public void add (double value) {
+		add(value, false);
+	}
+	
 	public void add (double value, boolean canExceed) {
 		if (value + current < max) {
 			current += value;
@@ -45,5 +49,9 @@ public class Gauge {
 	public void regen () {
 		double total_regen = regen * (1 + regen_augment / 100);
 		this.add(total_regen, false);
+	}
+	
+	public void init () {
+		// TODO : initialiser avec max, regen et regen augment
 	}
 }

@@ -1,10 +1,15 @@
 package Models.Information;
 
 import Constants.Stats.DD_Stats;
+import Constants.Stats.Statistic_name;
 import Util.UtilMenu;
 import lombok.Data;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
-import java.util.Random;
+import java.io.InputStream;
+
+import java.util.*;
 
 import static Constants.Stats.DD_Stats.*;
 
@@ -90,10 +95,88 @@ public class PrimaryStats {
 		}
 	}
 	
+	public void incrementStat (DD_Stats statName, int value) {
+		switch (statName) {
+			case FOR:
+				this.force += value;
+				break;
+			case DEX:
+				this.dexterity += value;
+				break;
+			case INT:
+				this.intelligence += value;
+				break;
+			case CON:
+				this.constitution += value;
+				break;
+			case WIS:
+				this.wisdom += value;
+				break;
+		}
+	}
+	
 	public Statistics calculateBaseStats () {
-		// TODO : Get values from Constants.Stats.v2
-		UtilMenu.error("NOT IMPLEMENTED");
-		return new Statistics();
+		Statistics baseStats = new Statistics();
+		
+		String filename1 = "src/main/java/Constants/Stats/stats_level_0.json";
+		String filename2 = "src/main/java/Constants/Stats/stats_per_primary.json";
+		String filename3 = "src/main/java/Constants/Stats/stats_level_up.json";
+		
+		InputStream input1 = PrimaryStats.class.getResourceAsStream(filename1);
+		InputStream input2 = PrimaryStats.class.getResourceAsStream(filename2);
+		InputStream input3 = PrimaryStats.class.getResourceAsStream(filename3);
+		
+		assert input1 != null;
+		assert input2 != null;
+		assert input3 != null;
+		
+		// Set stats at level 0
+		JSONTokener lvl_0_tokener = new JSONTokener(input1);
+		JSONObject  lvl_0_object  = new JSONObject(lvl_0_tokener);
+		for(Iterator<String> it = lvl_0_object.keys() ; it.hasNext() ; ) {
+			String stat = it.next();
+			baseStats.setStatByName(Statistic_name.valueOf(stat), lvl_0_object.getDouble(stat));
+		}
+		
+		// Add stats per Primary
+		JSONTokener stats_per_DD_tokener = new JSONTokener(input2);
+		JSONObject  stats_per_DD_object  = new JSONObject(stats_per_DD_tokener);
+		int         multiplier;
+		for(Iterator<String> it = stats_per_DD_object.keys() ; it.hasNext() ; ) {
+			String stat = it.next();
+			switch (stat) {
+				case "FOR":
+					multiplier = getForce();
+					break;
+				case "DEX":
+					multiplier = getDexterity();
+					break;
+				case "INT":
+					multiplier = getIntelligence();
+					break;
+				case "CON":
+					multiplier = getConstitution();
+					break;
+				case "WIS":
+					multiplier = getWisdom();
+					break;
+				default:
+					UtilMenu.error("Primary stat not found");
+					multiplier = 0;
+			}
+			baseStats.incrementStatByName(Statistic_name.valueOf(stat),
+				stats_per_DD_object.getDouble(stat) * multiplier);
+		}
+		
+		// Add stats per level
+		JSONTokener stats_per_level_tokener = new JSONTokener(input3);
+		JSONObject  stats_per_level_object  = new JSONObject(stats_per_level_tokener);
+		for(Iterator<String> it = stats_per_DD_object.keys() ; it.hasNext() ; ) {
+			String stat = it.next();
+			baseStats.incrementStatByName(Statistic_name.valueOf(stat), stats_per_DD_object.getDouble(stat) * level);
+		}
+		
+		return baseStats;
 	}
 	
 	public void pattern (int level, String pattern) {

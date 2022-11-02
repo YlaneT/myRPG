@@ -2,9 +2,15 @@ package Models.Entities;
 
 import Constants.Side;
 import Constants.Stats.DD_Stats;
+import Constants.Stats.Statistic_name;
 import Models.Information.*;
 import lombok.Data;
-import org.json.simple.parser.JSONParser;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+import Util.UtilMenu;
+
+import java.io.*;
+import java.util.Iterator;
 
 @Data
 public abstract class Character {
@@ -24,7 +30,8 @@ public abstract class Character {
 		this.name = name;
 		this.side = side;
 		primaryStats = new PrimaryStats();
-		initCharacterstats();
+		baseStats = primaryStats.calculateBaseStats();
+		//		bonusStats = calculateBonusStats();
 		initGauges();
 	}
 	
@@ -37,7 +44,8 @@ public abstract class Character {
 		primaryStats = new PrimaryStats();
 		primaryStats.setLevel(level);
 		primaryStats.setStat(specialization, level);
-		initCharacterstats();
+		baseStats = primaryStats.calculateBaseStats();
+		//		bonusStats = calculateBonusStats();
 		initGauges();
 	}
 	
@@ -48,20 +56,17 @@ public abstract class Character {
 		primaryStats = new PrimaryStats();
 		primaryStats.setLevel(level);
 		primaryStats.pattern(level, pattern);
-		initCharacterstats();
+		baseStats = primaryStats.calculateBaseStats();
+		//		bonusStats = calculateBonusStats();
 		initGauges();
 	}
 	
-	abstract protected void initGauges (); // Different json for each type of Character
-	// Can be made with a parameter *String filename*
+	protected void initGauges () {
+		// TODO : init gauges
+	}
 	
-	
-	protected void initCharacterstats () {
-		JSONParser parser = new JSONParser();
-		// init Statistics niv 0 ( nécessite une CONSTANTE dans chaque classe avec le nom du fichier qui les contient )
-		
-		// init Statistics en fonction des PrimaryStats
-		
+	protected void updateGauges () {
+		// TODO : update gauges
 	}
 	
 /*	private double getBaseStatByName (Statistic_name name) {
@@ -98,7 +103,6 @@ public abstract class Character {
 	public String toString () {
 		StringBuilder sb;
 		sb = new StringBuilder();
-		// FIXME : A TESTER
 		// FIXME : .append(stat_name) doesn't show stat value
 		sb.append(UtilMenu.title(getSide() + " : " + name.toUpperCase())).append("\n");
 		sb.append(side.toString().toUpperCase()).append(" \t").append(name.toUpperCase()).append("\n");

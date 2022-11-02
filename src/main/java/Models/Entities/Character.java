@@ -62,26 +62,22 @@ public abstract class Character {
 	}
 	
 	protected void initGauges () {
-		// TODO : init gauges
+		double max_health    = getCurrentStatByName(Statistic_name.MAX_HEALTH);
+		double health_regen  = getCurrentStatByName(Statistic_name.HEALTH_REGENERATION);
+		double regen_augment = getCurrentStatByName(Statistic_name.HEALTH_REGEN_AUGMENT);
+		health = new Gauge(max_health, health_regen, regen_augment);
+		
+		double max_mana     = getCurrentStatByName(Statistic_name.MAX_MANA);
+		double mana_regen   = getCurrentStatByName(Statistic_name.MANA_REGENERATION);
+		double mana_augment = getCurrentStatByName(Statistic_name.MANA_REGEN_AUGMENT);
+		health = new Gauge(max_mana, mana_regen, mana_augment);
 	}
 	
-	protected void updateGauges () {
-		// TODO : update gauges
-	}
+	// If max decreasing, current decrease proportionally, if max increasing, current increase by same amount
+	//	protected void updateGauges () {
+	//	}
 	
-/*	private double getBaseStatByName (Statistic_name name) {
-		return getBaseStats().getStatByName(name);
-	}
-	
-	protected double getBonusStatByName (Statistic_name name) {
-		return getBonusStats().getStatByName(name);
-	}
-	
-	protected double getCurrentStatByName (Statistic_name name) {
-		return getBaseStatByName(name) + getBonusStatByName(name);
-	}
-	
-	private void setBaseStatByName (Statistic_name name, double value) {
+/*	private void setBaseStatByName (Statistic_name name, double value) {
 		getBaseStats().setStatByName(name, value);
 	}
 	
@@ -103,7 +99,6 @@ public abstract class Character {
 	public String toString () {
 		StringBuilder sb;
 		sb = new StringBuilder();
-		// FIXME : .append(stat_name) doesn't show stat value
 		sb.append(UtilMenu.title(getSide() + " : " + name.toUpperCase())).append("\n");
 		sb.append(side.toString().toUpperCase()).append(" \t").append(name.toUpperCase()).append("\n");
 		sb.append("Level           \t").append(getLevel()).append("\n");
@@ -140,5 +135,17 @@ public abstract class Character {
 	
 	protected int getWIS () {
 		return getPrimaryStats().getWisdom();
+	}
+	
+	private double getBaseStatByName (Statistic_name name) {
+		return getBaseStats().getStatByName(name);
+	}
+	
+	protected double getBonusStatByName (Statistic_name name) {
+		return getBonusStats().getStatByName(name);
+	}
+	
+	protected double getCurrentStatByName (Statistic_name name) {
+		return getBaseStatByName(name) + getBonusStatByName(name);
 	}
 }

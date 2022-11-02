@@ -6,12 +6,9 @@ import Models.Information.Statistic;
 
 import java.util.ArrayList;
 
-public abstract class Monster extends Character {
+public abstract class Enemy extends Character {
 	
-	public Monster (String name) {
+	public Enemy (String name) {
 		super(name, ENEMY);
 	}
-	
-	@Override
-	protected void initCharacterstats () {}
 }

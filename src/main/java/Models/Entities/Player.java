@@ -4,17 +4,12 @@ import Constants.Side;
 import Util.UtilMenu;
 
 import static Constants.Stats.Statistic_name.*;
-import static Constants.Stats.Statistic_name.MANA;
 
 public class Player extends Character {
 	public Player (String name) {
 		super(name, Side.ALLY);
 	}
 	
-	@Override
-	protected void initGauges () {
-	
-	}
 	
 /*	public String toString () {
 		StringBuilder sb;

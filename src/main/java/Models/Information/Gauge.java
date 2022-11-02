@@ -51,7 +51,4 @@ public class Gauge {
 		this.add(total_regen, false);
 	}
 	
-	public void init () {
-		// TODO : initialiser avec max, regen et regen augment
-	}
 }

@@ -121,20 +121,6 @@ public class Statistics {
 		setStatByName(name, getStatByName(name) + value);
 	}
 	
-	// FIXME : Only one part of player's stats. Must be baseStats + bonusStats
-	//	public String toString () {
-	//		StringBuilder sb;
-	//		sb = new StringBuilder();
-	//		sb.append("Attack damage   \t").append(ATTACK_DAMAGE).append("\n");
-	//		sb.append("Ability power   \t").append(ABILITY_POWER).append("\n");
-	//		sb.append("Critical chance \t").append(CRITICAL_CHANCE).append("\n");
-	//		sb.append("Critical damage \t").append(CRITICAL_DAMAGE).append("\n");
-	//		sb.append("Armor           \t").append(ARMOR).append("\n");
-	//		sb.append("Magic resistance\t").append(MAGIC_RESISTANCE).append("\n");
-	//		sb.append("Heal / Shield   \t").append(HEAL_SHIELD).append("\n");
-	//		sb.append("Ability Haste   \t").append(ABILITY_HASTE).append("\n");
-	//		return sb.toString();
-	//	}
 	
 	// FIXME : Useless ?
 	//	public void setAll (Statistic... statistics) {

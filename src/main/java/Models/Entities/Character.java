@@ -31,7 +31,7 @@ public abstract class Character {
 		this.side = side;
 		primaryStats = new PrimaryStats();
 		baseStats = primaryStats.calculateBaseStats();
-		//		bonusStats = calculateBonusStats();
+		bonusStats = calculateBonusStats();
 		initGauges();
 	}
 	
@@ -46,7 +46,7 @@ public abstract class Character {
 		primaryStats.setStat(specialization, level);
 		baseStats = primaryStats.calculateBaseStats();
 		//		bonusStats = calculateBonusStats();
-		initGauges();
+		//		initGauges();
 	}
 	
 	/** Create a preset Character with a pattern "Mage" / "Tank" / "Random" */
@@ -58,42 +58,45 @@ public abstract class Character {
 		primaryStats.pattern(level, pattern);
 		baseStats = primaryStats.calculateBaseStats();
 		//		bonusStats = calculateBonusStats();
-		initGauges();
+		//		initGauges();
+	}
+	
+	// FIXME when Items are implemented
+	protected Statistics calculateBonusStats () {
+		return new Statistics();
 	}
 	
 	protected void initGauges () {
 		double max_health    = getCurrentStatByName(Statistic_name.MAX_HEALTH);
 		double health_regen  = getCurrentStatByName(Statistic_name.HEALTH_REGENERATION);
 		double regen_augment = getCurrentStatByName(Statistic_name.HEALTH_REGEN_AUGMENT);
-		health = new Gauge(max_health, health_regen, regen_augment);
+		this.health = new Gauge(max_health, health_regen, regen_augment);
 		
 		double max_mana     = getCurrentStatByName(Statistic_name.MAX_MANA);
 		double mana_regen   = getCurrentStatByName(Statistic_name.MANA_REGENERATION);
 		double mana_augment = getCurrentStatByName(Statistic_name.MANA_REGEN_AUGMENT);
-		health = new Gauge(max_mana, mana_regen, mana_augment);
+		this.mana = new Gauge(max_mana, mana_regen, mana_augment);
 	}
 	
 	// If max decreasing, current decrease proportionally, if max increasing, current increase by same amount
 	//	protected void updateGauges () {
 	//	}
 	
-/*	private void setBaseStatByName (Statistic_name name, double value) {
+/*
+	private void setBaseStatByName (Statistic_name name, double value) {
 		getBaseStats().setStatByName(name, value);
 	}
 	
 	private void setCurrentStatByName (Statistic_name name, double value) {
 		getBonusStats().setStatByName(name, value);
 	}
-	
-	
-	private void receiveDamage (Damage_Type type, double amount) {
-		// TODO : Effects to reduce damage (flat)
-		// TODO : Effects to reduce damage (percent) (Armor / MR)
-	}
-	
+*/
+
+/*
 	private void addExp () {}
 	
-	private void levelUp () {}*/
+	private void levelUp () {}
+*/
 	
 /*	@Override
 	public String toString () {
@@ -110,7 +113,8 @@ public abstract class Character {
 		sb.append("Mana            \t").append(getCurrentStatByName(MANA)).append("\n");
 		sb.append("=".repeat(50) + "\n");
 		return sb.toString();
-	}*/
+	}
+*/
 	
 	/* FAST GETTERS */
 	protected int getLevel () {
@@ -137,7 +141,7 @@ public abstract class Character {
 		return getPrimaryStats().getWisdom();
 	}
 	
-	private double getBaseStatByName (Statistic_name name) {
+	protected double getBaseStatByName (Statistic_name name) {
 		return getBaseStats().getStatByName(name);
 	}
 	

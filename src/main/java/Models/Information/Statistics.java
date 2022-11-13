@@ -22,6 +22,25 @@ public class Statistics {
 	double ABILITY_HASTE;
 	double MAX_ENERGY;
 	
+	public Statistics () {
+		this.MAX_HEALTH = 0;
+		this.HEALTH_REGENERATION = 0;
+		this.HEALTH_REGEN_AUGMENT = 0;
+		this.MAX_MANA = 0;
+		this.MANA_REGENERATION = 0;
+		this.MANA_REGEN_AUGMENT = 0;
+		this.ATTACK_DAMAGE = 0;
+		this.ABILITY_POWER = 0;
+		this.ARMOR = 0;
+		this.MAGIC_RESISTANCE = 0;
+		this.CRITICAL_CHANCE = 0;
+		this.CRITICAL_DAMAGE = 0;
+		this.HEAL = 0;
+		this.SHIELD = 0;
+		this.ABILITY_HASTE = 0;
+		this.MAX_ENERGY = 0;
+	}
+	
 	public double getStatByName (Statistic_name name) {
 		switch (name) {
 			case MAX_HEALTH:

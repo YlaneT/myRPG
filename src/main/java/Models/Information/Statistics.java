@@ -140,11 +140,4 @@ public class Statistics {
 		setStatByName(name, getStatByName(name) + value);
 	}
 	
-	
-	// FIXME : Useless ?
-	//	public void setAll (Statistic... statistics) {
-	//		for(Statistic s : statistics) {
-	//			setStatByName(s.getName(), s.getBase());
-	//		}
-	//	}
 }

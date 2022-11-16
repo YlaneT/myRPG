@@ -1,9 +1,6 @@
 package Models.Entities;
 
 import Constants.Side;
-import Util.UtilMenu;
-
-import static Constants.Stats.Statistic_name.*;
 
 public class Player extends Character {
 	public Player (String name) {

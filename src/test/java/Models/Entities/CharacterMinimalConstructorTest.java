@@ -3,10 +3,8 @@ package Models.Entities;
 import Constants.Side;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
 import static Constants.Stats.Statistic_name.*;
-
-import Models.Entities.Player;
+import static org.junit.Assert.assertEquals;
 
 public class CharacterMinimalConstructorTest {
 	@Test

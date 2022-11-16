@@ -9,8 +9,8 @@ import org.json.JSONTokener;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
-import java.util.*;
+import java.util.Iterator;
+import java.util.Random;
 
 import static Constants.Stats.DD_Stats.*;
 
@@ -67,6 +67,24 @@ public class PrimaryStats {
 			case WIS:
 				setWisdom(value);
 				break;
+		}
+	}
+	
+	public int getStat (DD_Stats name) {
+		switch (name) {
+			case FOR:
+				return getForce();
+			case DEX:
+				return getDexterity();
+			case INT:
+				return getIntelligence();
+			case CON:
+				return getConstitution();
+			case WIS:
+				return getWisdom();
+			default:
+				UtilMenu.error("Couldn't find " + name);
+				return -1;
 		}
 	}
 	
@@ -190,13 +208,17 @@ public class PrimaryStats {
 		return baseStats;
 	}
 	
-	public void pattern (int level, String pattern) {
+	public void specializedPattern (DD_Stats name) {
+		this.setStat(name, this.level);
+	}
+	
+	public void pattern (String pattern) {
 		Random r = new Random();
 		int    other;
 		switch (pattern) {
 			case "Mage":
-				int intel = (int) Math.ceil((double) level / 2);
-				other = level - intel;
+				int intel = this.level / 2;
+				other = this.level - intel;
 				this.setStat(INT, intel);
 				for(int i = 0 ; i < other ; i++) {
 					int pick = r.nextInt(3);
@@ -216,8 +238,8 @@ public class PrimaryStats {
 				}
 				break;
 			case "Tank":
-				int constit = (int) Math.ceil((double) level / 2);
-				other = level - constit;
+				int constit = this.level / 2;
+				other = this.level - constit;
 				this.setStat(CON, constit);
 				for(int i = 0 ; i < other ; i++) {
 					int pick = r.nextInt(values().length);
@@ -225,7 +247,7 @@ public class PrimaryStats {
 				}
 				break;
 			case "Random":
-				for(int i = 0 ; i < level ; i++) {
+				for(int i = 0 ; i < this.level ; i++) {
 					int pick = r.nextInt(values().length);
 					incrementStat(values()[pick]);
 				}

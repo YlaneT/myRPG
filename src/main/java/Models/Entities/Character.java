@@ -5,12 +5,6 @@ import Constants.Stats.DD_Stats;
 import Constants.Stats.Statistic_name;
 import Models.Information.*;
 import lombok.Data;
-import org.json.JSONObject;
-import org.json.JSONTokener;
-import Util.UtilMenu;
-
-import java.io.*;
-import java.util.Iterator;
 
 @Data
 public abstract class Character {
@@ -43,10 +37,10 @@ public abstract class Character {
 		this.side = side;
 		primaryStats = new PrimaryStats();
 		primaryStats.setLevel(level);
-		primaryStats.setStat(specialization, level);
+		primaryStats.specializedPattern(specialization);
 		baseStats = primaryStats.calculateBaseStats();
-		//		bonusStats = calculateBonusStats();
-		//		initGauges();
+		bonusStats = calculateBonusStats();
+		initGauges();
 	}
 	
 	/** Create a preset Character with a pattern "Mage" / "Tank" / "Random" */
@@ -55,10 +49,10 @@ public abstract class Character {
 		this.side = side;
 		primaryStats = new PrimaryStats();
 		primaryStats.setLevel(level);
-		primaryStats.pattern(level, pattern);
+		primaryStats.pattern(pattern);
 		baseStats = primaryStats.calculateBaseStats();
-		//		bonusStats = calculateBonusStats();
-		//		initGauges();
+		bonusStats = calculateBonusStats();
+		initGauges();
 	}
 	
 	// FIXME when Items are implemented

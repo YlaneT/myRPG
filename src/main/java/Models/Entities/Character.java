@@ -72,10 +72,6 @@ public abstract class Character {
 		this.mana = new Gauge(max_mana, mana_regen, mana_augment);
 	}
 	
-	// If max decreasing, current decrease proportionally, if max increasing, current increase by same amount
-	//	protected void updateGauges () {
-	//	}
-	
 /*
 	private void setBaseStatByName (Statistic_name name, double value) {
 		getBaseStats().setStatByName(name, value);
@@ -90,24 +86,6 @@ public abstract class Character {
 	private void addExp () {}
 	
 	private void levelUp () {}
-*/
-	
-/*	@Override
-	public String toString () {
-		StringBuilder sb;
-		sb = new StringBuilder();
-		sb.append(UtilMenu.title(getSide() + " : " + name.toUpperCase())).append("\n");
-		sb.append(side.toString().toUpperCase()).append(" \t").append(name.toUpperCase()).append("\n");
-		sb.append("Level           \t").append(getLevel()).append("\n");
-		sb.append("Attack damage   \t").append(getCurrentStatByName(ATTACK_DAMAGE)).append("\n");
-		sb.append("Ability power   \t").append(getCurrentStatByName(ABILITY_POWER)).append("\n");
-		sb.append("Health          \t").append(getCurrentStatByName(HEALTH)).append("\n");
-		sb.append("Armor           \t").append(getCurrentStatByName(ARMOR)).append("\n");
-		sb.append("Magic resistance\t").append(getCurrentStatByName(MAGIC_RESISTANCE)).append("\n");
-		sb.append("Mana            \t").append(getCurrentStatByName(MANA)).append("\n");
-		sb.append("=".repeat(50) + "\n");
-		return sb.toString();
-	}
 */
 	
 	/* FAST GETTERS */

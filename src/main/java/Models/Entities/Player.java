@@ -1,6 +1,9 @@
 package Models.Entities;
 
 import Constants.Side;
+import Util.UtilMenu;
+
+import static Constants.Stats.Statistic_name.*;
 
 public class Player extends Character {
 	public Player (String name) {
@@ -8,18 +11,18 @@ public class Player extends Character {
 	}
 	
 	
-/*	public String toString () {
+	public String toString () {
 		StringBuilder sb;
 		sb = new StringBuilder();
 		sb.append(UtilMenu.title("PLAYER : " + name.toUpperCase())).append("\n");
-		sb.append("Level           \t").append(getLevel()).append("\n");
-		sb.append("Attack damage   \t").append(getBonusStatByName(ATTACK_DAMAGE)).append("\n");
-		sb.append("Ability power   \t").append(getBonusStatByName(ABILITY_POWER)).append("\n");
-		sb.append("Health          \t").append(getBonusStatByName(HEALTH)).append("\n");
-		sb.append("Armor           \t").append(getBonusStatByName(ARMOR)).append("\n");
-		sb.append("Magic resistance\t").append(getBonusStatByName(MAGIC_RESISTANCE)).append("\n");
-		sb.append("Mana            \t").append(getBonusStatByName(MANA)).append("\n");
-		sb.append("=".repeat(50) + "\n");
+		sb.append(UtilMenu.separate("Level", getLevel())).append("\n");
+		sb.append(UtilMenu.separate("Attack damage", getCurrentStatByName(ATTACK_DAMAGE))).append("\n");
+		sb.append(UtilMenu.separate("Ability power", getCurrentStatByName(ABILITY_POWER))).append("\n");
+		sb.append(UtilMenu.separate("Health", getCurrentStatByName(HEALTH))).append("\n");
+		sb.append(UtilMenu.separate("Armor", getCurrentStatByName(ARMOR))).append("\n");
+		sb.append(UtilMenu.separate("Magic resistance", getCurrentStatByName(MAGIC_RESISTANCE))).append("\n");
+		sb.append(UtilMenu.separate("Mana", getCurrentStatByName(MANA))).append("\n");
+		sb.append("=".repeat(50)).append("\n");
 		return sb.toString();
-	}*/
+	}
 }

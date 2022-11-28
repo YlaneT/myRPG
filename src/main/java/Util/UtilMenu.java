@@ -50,6 +50,21 @@ public class UtilMenu extends Colors {
 		return left + " ".repeat(50 - totalLength) + right;
 	}
 	
+	public static String separate (String left, double right) {
+		String r = "" + right;
+		return separate(left, r);
+	}
+	
+	public static String separate (String left, int right) {
+		String r = "" + right;
+		return separate(left, r);
+	}
+	
+	public int separateSpaces (String left, String right) {
+		int totalLength = left.length() + right.length();
+		return (50 - totalLength);
+	}
+	
 /*	public static String get_answer (String question, Predicate condition) {
 		String s = "";
 		ask(question);

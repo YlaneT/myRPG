@@ -5,14 +5,12 @@ import Constants.Stats.Statistic_name;
 import Util.UtilMenu;
 import lombok.Data;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.Random;
 
 import static Constants.Stats.DD_Stats.*;
+import static Util.UtilJson.readJson;
 
 @Data
 public class PrimaryStats {
@@ -142,69 +140,56 @@ public class PrimaryStats {
 		String filename2   = statsFolder + "stats_per_primary.json";
 		String filename3   = statsFolder + "stats_level_up.json";
 		
-		String contents1, contents2, contents3;
-		
-		try {
-			contents1 = new String(Files.readAllBytes(Paths.get(filename1)));
-			contents2 = new String(Files.readAllBytes(Paths.get(filename2)));
-			contents3 = new String(Files.readAllBytes(Paths.get(filename3)));
-			
-			
-			// Set stats at level 0
-			JSONTokener lvl_0_tokener = new JSONTokener(contents1);
-			JSONObject  lvl_0_object  = new JSONObject(lvl_0_tokener);
-			for(Iterator<String> it = lvl_0_object.keys() ; it.hasNext() ; ) {
-				String stat = it.next();
-				baseStats.setStatByName(Statistic_name.valueOf(stat), lvl_0_object.getDouble(stat));
-			}
-			
-			// Add stats per Primary
-			JSONTokener stats_per_DD_tokener = new JSONTokener(contents2);
-			JSONObject  stats_per_DD_object  = new JSONObject(stats_per_DD_tokener);
-			int         multiplier;
-			for(Iterator<String> it = stats_per_DD_object.keys() ; it.hasNext() ; ) {
-				String stat = it.next();
-				switch (stat) {
-					case "FOR":
-						multiplier = getForce();
-						break;
-					case "DEX":
-						multiplier = getDexterity();
-						break;
-					case "INT":
-						multiplier = getIntelligence();
-						break;
-					case "CON":
-						multiplier = getConstitution();
-						break;
-					case "WIS":
-						multiplier = getWisdom();
-						break;
-					default:
-						UtilMenu.error("Primary stat not found");
-						multiplier = 0;
-				}
-				if (multiplier != 0) {
-					JSONObject secondaries_for_DD = stats_per_DD_object.getJSONObject(stat);
-					for(Iterator<String> ite = secondaries_for_DD.keys() ; ite.hasNext() ; ) {
-						String secondary = ite.next();
-						baseStats.incrementStatByName(Statistic_name.valueOf(secondary),
-							secondaries_for_DD.getDouble(secondary) * multiplier);
-					}
-				}
-			}
-			
-			// Add stats per level
-			JSONTokener stats_per_level_tokener = new JSONTokener(contents3);
-			JSONObject  stats_per_level_object  = new JSONObject(stats_per_level_tokener);
-			for(Iterator<String> it = stats_per_level_object.keys() ; it.hasNext() ; ) {
-				String stat = it.next();
-				baseStats.incrementStatByName(Statistic_name.valueOf(stat),
-					stats_per_level_object.getDouble(stat) * level);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		// Set stats at level 0
+		JSONObject lvl_0_object = readJson(filename1);
+		for(Iterator<String> it = lvl_0_object.keys() ; it.hasNext() ; ) {
+			String stat = it.next();
+			baseStats.setStatByName(Statistic_name.valueOf(stat), lvl_0_object.getDouble(stat));
 		}
+		
+		// Add stats per Primary
+		JSONObject stats_per_DD_object = readJson(filename2);
+		int        multiplier;
+		for(Iterator<String> it = stats_per_DD_object.keys() ; it.hasNext() ; ) {
+			String stat = it.next();
+			switch (stat) {
+				case "FOR":
+					multiplier = getForce();
+					break;
+				case "DEX":
+					multiplier = getDexterity();
+					break;
+				case "INT":
+					multiplier = getIntelligence();
+					break;
+				case "CON":
+					multiplier = getConstitution();
+					break;
+				case "WIS":
+					multiplier = getWisdom();
+					break;
+				default:
+					UtilMenu.error("Primary stat not found");
+					multiplier = 0;
+			}
+			if (multiplier != 0) {
+				JSONObject secondaries_for_DD = stats_per_DD_object.getJSONObject(stat);
+				for(Iterator<String> ite = secondaries_for_DD.keys() ; ite.hasNext() ; ) {
+					String secondary = ite.next();
+					baseStats.incrementStatByName(Statistic_name.valueOf(secondary),
+						secondaries_for_DD.getDouble(secondary) * multiplier);
+				}
+			}
+		}
+		
+		// Add stats per level
+		JSONObject stats_per_level_object = readJson(filename3);
+		for(Iterator<String> it = stats_per_level_object.keys() ; it.hasNext() ; ) {
+			String stat = it.next();
+			baseStats.incrementStatByName(Statistic_name.valueOf(stat),
+				stats_per_level_object.getDouble(stat) * level);
+		}
+		
 		return baseStats;
 	}
 	

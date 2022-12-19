@@ -5,5 +5,6 @@ public enum DD_Stats {
 	DEX,
 	INT,
 	CON,
-	WIS
+	WIS,
+	UNA // Unattributed
 }

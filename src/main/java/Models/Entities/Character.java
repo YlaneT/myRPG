@@ -19,7 +19,8 @@ public abstract class Character {
 	Statistics   bonusStats;
 	
 	/* CONSTRUCTORS */
-	// Create character lvl 0
+	
+	/** Create character lvl 0 */
 	public Character (String name, Side side) {
 		this.name = name;
 		this.side = side;
@@ -27,6 +28,11 @@ public abstract class Character {
 		baseStats = primaryStats.calculateBaseStats();
 		bonusStats = calculateBonusStats();
 		initGauges();
+	}
+	
+	/** Create a Character at given level with unattributed Primary stats points */
+	public Character (String name, Side side, int level) {
+		this(name, side, level, DD_Stats.UNA);
 	}
 	
 	// Specialized (all stats points in the same stat)
@@ -55,6 +61,7 @@ public abstract class Character {
 		initGauges();
 	}
 	
+	/* SECONDARY STATS */
 	// FIXME when Items are implemented
 	protected Statistics calculateBonusStats () {
 		return new Statistics();
@@ -81,16 +88,21 @@ public abstract class Character {
 		getBonusStats().setStatByName(name, value);
 	}
 */
-
-/*
-	private void addExp () {}
 	
-	private void levelUp () {}
-*/
+	/* FAST EXP */
+	private void giveExp (int amount) {
+		this.primaryStats.giveExp(amount);
+		this.primaryStats.calculateBaseStats();
+	}
+	
+	private void setTotal_experience (int amount) {
+		this.primaryStats.setTotal_experience(amount);
+		this.primaryStats.calculateBaseStats();
+	}
 	
 	/* FAST GETTERS */
 	protected int getLevel () {
-		return getPrimaryStats().getLevel();
+		return getPrimaryStats().getExp_object().getLevel();
 	}
 	
 	protected int getFOR () {
@@ -111,6 +123,10 @@ public abstract class Character {
 	
 	protected int getWIS () {
 		return getPrimaryStats().getWisdom();
+	}
+	
+	protected int getUNA () {
+		return getPrimaryStats().getUNATTRIBUTED();
 	}
 	
 	protected double getBaseStatByName (Statistic_name name) {

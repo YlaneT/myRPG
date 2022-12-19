@@ -14,15 +14,18 @@ import static Util.UtilJson.readJson;
 
 @Data
 public class PrimaryStats {
-	private int level;
+	private Experience exp_object;
+	
 	private int force;
 	private int dexterity;
 	private int intelligence;
 	private int constitution;
 	private int wisdom;
+	private int UNATTRIBUTED;
 	
+	/* CONSTRUCTORS */
 	public PrimaryStats () {
-		this.level = 0;
+		this.exp_object = new Experience();
 		this.force = 0;
 		this.dexterity = 0;
 		this.intelligence = 0;
@@ -31,23 +34,29 @@ public class PrimaryStats {
 	}
 	
 	public PrimaryStats (int level) {
-		this.level = level;
+		this.exp_object = new Experience(level, "level");
+		
 		this.force = 0;
 		this.dexterity = 0;
 		this.intelligence = 0;
 		this.constitution = 0;
 		this.wisdom = 0;
+		this.UNATTRIBUTED = level;
 	}
 	
-	public PrimaryStats (int level, int FOR, int DEX, int INT, int CON, int WIS) {
-		this.level = level;
+	public PrimaryStats (int level, String type, int FOR, int DEX, int INT, int CON, int WIS, int UNA) {
+		// TODO : Check if type in "level" / "total exp"
+		this.exp_object = new Experience(level, type);
+		
 		this.force = FOR;
 		this.dexterity = DEX;
 		this.intelligence = INT;
 		this.constitution = CON;
 		this.wisdom = WIS;
+		this.UNATTRIBUTED = UNA;
 	}
 	
+	/* GETTERS / SETTERS */
 	public void setStat (DD_Stats name, int value) {
 		switch (name) {
 			case FOR:
@@ -64,6 +73,9 @@ public class PrimaryStats {
 				break;
 			case WIS:
 				setWisdom(value);
+				break;
+			case UNA:
+				setUNATTRIBUTED(value);
 				break;
 		}
 	}
@@ -86,30 +98,29 @@ public class PrimaryStats {
 		}
 	}
 	
-	public Statistics levelUp (DD_Stats augmentedStat) {
-		this.level += 1;
-		incrementStat(augmentedStat);
-		return calculateBaseStats();
+	/* EXPERIENCE */
+	public void giveExp (int amount) {
+		int startLevel = this.getExp_object().getLevel();
+		this.exp_object.giveExperience(amount);
+		this.UNATTRIBUTED += this.getExp_object().getLevel() - startLevel;
 	}
 	
+	public void setLevel (int level) {
+		int startLevel = this.getExp_object().getLevel();
+		this.exp_object.setLevel(level);
+		this.UNATTRIBUTED += this.getExp_object().getLevel() - startLevel;
+	}
+	
+	public void setTotal_experience (int amount) {
+		int startLevel = this.getExp_object().getLevel();
+		this.exp_object.setTotal_experience(amount);
+		this.UNATTRIBUTED += this.getExp_object().getLevel() - startLevel;
+	}
+	
+	
+	/* ADD PRIMARY STAT POINTS */
 	public void incrementStat (DD_Stats statName) {
-		switch (statName) {
-			case FOR:
-				this.force += 1;
-				break;
-			case DEX:
-				this.dexterity += 1;
-				break;
-			case INT:
-				this.intelligence += 1;
-				break;
-			case CON:
-				this.constitution += 1;
-				break;
-			case WIS:
-				this.wisdom += 1;
-				break;
-		}
+		this.incrementStat(statName, 1);
 	}
 	
 	public void incrementStat (DD_Stats statName, int value) {
@@ -129,9 +140,76 @@ public class PrimaryStats {
 			case WIS:
 				this.wisdom += value;
 				break;
+			case UNA:
+				this.UNATTRIBUTED += value;
+				break;
 		}
 	}
 	
+	public void putStat (DD_Stats statName) {
+		putStat(statName, 1);
+	}
+	
+	public void putStat (DD_Stats statName, int value) {
+		if (this.UNATTRIBUTED >= value) {
+			incrementStat(statName, value);
+			this.UNATTRIBUTED -= value;
+		}
+		else {
+			UtilMenu.error("Not enough unattributed stat points");
+		}
+	}
+	
+	public void specializedPattern (DD_Stats name) {
+		this.putStat(name, UNATTRIBUTED);
+	}
+	
+	public void pattern (String pattern) {
+		Random r = new Random();
+		int    other;
+		switch (pattern) {
+			case "Mage":
+				int intel = UNATTRIBUTED / 2;
+				other = UNATTRIBUTED - intel;
+				this.putStat(INT, intel);
+				for(int i = 0 ; i < other ; i++) {
+					int pick = r.nextInt(3);
+					switch (pick) {
+						case 0:
+							putStat(INT);
+							break;
+						case 1:
+							putStat(WIS);
+							break;
+						case 2:
+							putStat(CON);
+							break;
+						default:
+							UtilMenu.error("Error in PrimaryStat.pattern -> Mage. Random returned " + pick);
+					}
+				}
+				break;
+			case "Tank":
+				int constit = UNATTRIBUTED / 2;
+				other = UNATTRIBUTED - constit;
+				this.putStat(CON, constit);
+				for(int i = 0 ; i < other ; i++) {
+					int pick = r.nextInt(values().length);
+					putStat(values()[pick]);
+				}
+				break;
+			case "Random":
+				for(int i = 0 ; i < UNATTRIBUTED ; i++) {
+					int pick = r.nextInt(values().length);
+					putStat(values()[pick]);
+				}
+				break;
+			default:
+				UtilMenu.error("Error in PrimaryStat.pattern. pattern not found : " + pattern);
+		}
+	}
+	
+	/* BASE STATS */
 	public Statistics calculateBaseStats () {
 		Statistics baseStats = new Statistics();
 		
@@ -187,58 +265,10 @@ public class PrimaryStats {
 		for(Iterator<String> it = stats_per_level_object.keys() ; it.hasNext() ; ) {
 			String stat = it.next();
 			baseStats.incrementStatByName(Statistic_name.valueOf(stat),
-				stats_per_level_object.getDouble(stat) * level);
+				stats_per_level_object.getDouble(stat) * exp_object.getLevel());
 		}
 		
 		return baseStats;
 	}
 	
-	public void specializedPattern (DD_Stats name) {
-		this.setStat(name, this.level);
-	}
-	
-	public void pattern (String pattern) {
-		Random r = new Random();
-		int    other;
-		switch (pattern) {
-			case "Mage":
-				int intel = this.level / 2;
-				other = this.level - intel;
-				this.setStat(INT, intel);
-				for(int i = 0 ; i < other ; i++) {
-					int pick = r.nextInt(3);
-					switch (pick) {
-						case 0:
-							incrementStat(INT);
-							break;
-						case 1:
-							incrementStat(WIS);
-							break;
-						case 2:
-							incrementStat(CON);
-							break;
-						default:
-							UtilMenu.error("Error in PrimaryStat.pattern -> Mage. Random returned " + pick);
-					}
-				}
-				break;
-			case "Tank":
-				int constit = this.level / 2;
-				other = this.level - constit;
-				this.setStat(CON, constit);
-				for(int i = 0 ; i < other ; i++) {
-					int pick = r.nextInt(values().length);
-					incrementStat(values()[pick]);
-				}
-				break;
-			case "Random":
-				for(int i = 0 ; i < this.level ; i++) {
-					int pick = r.nextInt(values().length);
-					incrementStat(values()[pick]);
-				}
-				break;
-			default:
-				UtilMenu.error("Error in PrimaryStat.pattern. pattern not found : " + pattern);
-		}
-	}
 }

@@ -71,12 +71,24 @@ public abstract class Character {
 		double max_health    = getCurrentStatByName(Statistic_name.MAX_HEALTH);
 		double health_regen  = getCurrentStatByName(Statistic_name.HEALTH_REGENERATION);
 		double regen_augment = getCurrentStatByName(Statistic_name.HEALTH_REGEN_AUGMENT);
-		this.health = new Gauge(max_health, health_regen, regen_augment);
+		this.health = new Gauge(max_health, health_regen, regen_augment, "HP");
 		
 		double max_mana     = getCurrentStatByName(Statistic_name.MAX_MANA);
 		double mana_regen   = getCurrentStatByName(Statistic_name.MANA_REGENERATION);
 		double mana_augment = getCurrentStatByName(Statistic_name.MANA_REGEN_AUGMENT);
-		this.mana = new Gauge(max_mana, mana_regen, mana_augment);
+		this.mana = new Gauge(max_mana, mana_regen, mana_augment, "Mana");
+	}
+	
+	protected void updateGauges () {
+		double max_health    = getCurrentStatByName(Statistic_name.MAX_HEALTH);
+		double health_regen  = getCurrentStatByName(Statistic_name.HEALTH_REGENERATION);
+		double regen_augment = getCurrentStatByName(Statistic_name.HEALTH_REGEN_AUGMENT);
+		this.health.update(max_health, health_regen, regen_augment);
+		
+		double max_mana     = getCurrentStatByName(Statistic_name.MAX_MANA);
+		double mana_regen   = getCurrentStatByName(Statistic_name.MANA_REGENERATION);
+		double mana_augment = getCurrentStatByName(Statistic_name.MANA_REGEN_AUGMENT);
+		this.mana.update(max_mana, mana_regen, mana_augment);
 	}
 	
 /*
@@ -93,11 +105,13 @@ public abstract class Character {
 	private void giveExp (int amount) {
 		this.primaryStats.giveExp(amount);
 		this.primaryStats.calculateBaseStats();
+		this.updateGauges();
 	}
 	
 	private void setTotal_experience (int amount) {
 		this.primaryStats.setTotal_experience(amount);
 		this.primaryStats.calculateBaseStats();
+		this.updateGauges();
 	}
 	
 	/* FAST GETTERS */

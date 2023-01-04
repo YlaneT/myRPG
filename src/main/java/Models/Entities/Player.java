@@ -24,6 +24,7 @@ public class Player extends Character {
 		super(name, ALLY, level, pattern);
 	}
 	
+	@Override
 	public String toString () {
 		StringBuilder sb;
 		sb = new StringBuilder();

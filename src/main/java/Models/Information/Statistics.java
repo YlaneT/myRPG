@@ -42,6 +42,10 @@ public class Statistics {
 	}
 	
 	public double getStatByName (Statistic_name name) {
+		if (name == null) {
+			System.err.println("Error getting stat { " + name + " }");
+			return -1;
+		}
 		switch (name) {
 			case MAX_HEALTH:
 				return getMAX_HEALTH();

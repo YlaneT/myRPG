@@ -7,7 +7,6 @@ import lombok.Data;
 import org.json.JSONObject;
 
 import java.util.Iterator;
-import java.util.Random;
 
 import static Constants.Stats.DD_Stats.*;
 import static Util.UtilJson.readJson;
@@ -31,6 +30,7 @@ public class PrimaryStats {
 		this.intelligence = 0;
 		this.constitution = 0;
 		this.wisdom = 0;
+		this.UNATTRIBUTED = 0;
 	}
 	
 	public PrimaryStats (int level) {
@@ -92,6 +92,8 @@ public class PrimaryStats {
 				return getConstitution();
 			case WIS:
 				return getWisdom();
+			case UNA:
+				return getUNATTRIBUTED();
 			default:
 				UtilMenu.error("Couldn't find " + name);
 				return -1;
@@ -156,7 +158,7 @@ public class PrimaryStats {
 			this.UNATTRIBUTED -= value;
 		}
 		else {
-			UtilMenu.error("Not enough unattributed stat points");
+			UtilMenu.warning("Not enough unattributed stat points");
 		}
 	}
 	
@@ -165,7 +167,6 @@ public class PrimaryStats {
 	}
 	
 	public void pattern (String pattern) {
-		Random r = new Random();
 		int    other;
 		switch (pattern) {
 			case "Mage":
@@ -173,20 +174,7 @@ public class PrimaryStats {
 				other = UNATTRIBUTED - intel;
 				this.putStat(INT, intel);
 				for(int i = 0 ; i < other ; i++) {
-					int pick = r.nextInt(3);
-					switch (pick) {
-						case 0:
-							putStat(INT);
-							break;
-						case 1:
-							putStat(WIS);
-							break;
-						case 2:
-							putStat(CON);
-							break;
-						default:
-							UtilMenu.error("Error in PrimaryStat.pattern -> Mage. Random returned " + pick);
-					}
+					putStat(randomStat(INT, WIS, CON));
 				}
 				break;
 			case "Tank":
@@ -194,14 +182,12 @@ public class PrimaryStats {
 				other = UNATTRIBUTED - constit;
 				this.putStat(CON, constit);
 				for(int i = 0 ; i < other ; i++) {
-					int pick = r.nextInt(values().length);
-					putStat(values()[pick]);
+					putStat(randomStat(true));
 				}
 				break;
 			case "Random":
-				for(int i = 0 ; i < UNATTRIBUTED ; i++) {
-					int pick = r.nextInt(values().length);
-					putStat(values()[pick]);
+				while (UNATTRIBUTED > 0) {
+					putStat(randomStat(true));
 				}
 				break;
 			default:

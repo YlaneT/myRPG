@@ -1,30 +1,30 @@
 package Constants.Stats;
 
 public enum Statistic_name {
-	// OFFENSE
-	ATTACK_DAMAGE,
-	ABILITY_POWER,
-	CRITICAL_CHANCE,
-	CRITICAL_DAMAGE,
-	// DEFENSE
 	// Health
 	MAX_HEALTH,
-	HEALTH,
+	//	HEALTH, // Not used because of Gauges
 	HEALTH_REGENERATION,
-	HP_REGEN_AUGMENT,
-	// Damage Reduction
-	ARMOR,
-	MAGIC_RESISTANCE,
-	// RESOURCE
-	// Mana
+	HEALTH_REGEN_AUGMENT,
+	// MANA
 	MAX_MANA,
-	MANA,
+	//	MANA, // Not used because of Gauges
 	MANA_REGENERATION,
 	MANA_REGEN_AUGMENT,
-	// Energy
-	MAX_ENERGY,
-	ENERGY,
+	// DAMAGE
+	ATTACK_DAMAGE,
+	ABILITY_POWER,
+	// DEFENSE
+	ARMOR,
+	MAGIC_RESISTANCE,
+	// CRITICAL STRIKES
+	CRITICAL_CHANCE,
+	CRITICAL_DAMAGE,
 	// UTILITY
-	HEAL_SHIELD,
+	HEAL,
+	SHIELD,
 	ABILITY_HASTE,
+	// ENERGY
+	MAX_ENERGY,
+	//	ENERGY, // Not used because not implemented but may be implemented in a Gauge
 }

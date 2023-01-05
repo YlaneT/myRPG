@@ -51,4 +51,28 @@ public class Util {
 		}
 		return MAXFACTO;
 	}
+	
+	public static boolean isInt (String txt) {
+		if (txt == null) {
+			return false;
+		}
+		try {
+			int n = Integer.parseInt(txt);
+		} catch (NumberFormatException nfe) {
+			return false;
+		}
+		return true;
+	}
+	
+	public static boolean isDouble (String txt) {
+		if (txt == null) {
+			return false;
+		}
+		try {
+			double n = Double.parseDouble(txt);
+		} catch (NumberFormatException nfe) {
+			return false;
+		}
+		return true;
+	}
 }

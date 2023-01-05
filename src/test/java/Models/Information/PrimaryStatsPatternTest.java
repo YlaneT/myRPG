@@ -27,9 +27,7 @@ public class PrimaryStatsPatternTest {
 		
 		@Parameterized.Parameters
 		public static List<Object[]> data () {
-			return Arrays.asList(new Object[][] {
-				{5, 2}, {7, 3}, {20, 10}
-			});
+			return Arrays.asList(new Object[][] {{5, 2}, {7, 3}, {20, 10}});
 		}
 		
 		@Test
@@ -138,9 +136,8 @@ public class PrimaryStatsPatternTest {
 		@Parameterized.Parameters
 		public static List<Object[]> data () {
 			return Arrays.asList(new Object[][] {
-				{1, DD_Stats.FOR}, {3, DD_Stats.FOR}, {6, DD_Stats.DEX}, {10, DD_Stats.DEX}, {15, DD_Stats.INT}, {
-				21, DD_Stats.INT
-			}, {28, DD_Stats.CON}, {29, DD_Stats.CON}, {31, DD_Stats.WIS}, {34, DD_Stats.WIS}
+				{1, DD_Stats.FOR}, {3, DD_Stats.FOR}, {6, DD_Stats.DEX}, {10, DD_Stats.DEX}, {15, DD_Stats.INT}, {21,
+																												  DD_Stats.INT}, {28, DD_Stats.CON}, {29, DD_Stats.CON}, {31, DD_Stats.WIS}, {34, DD_Stats.WIS}
 			});
 		}
 		

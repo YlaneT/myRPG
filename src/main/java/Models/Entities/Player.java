@@ -11,7 +11,6 @@ public class Player extends Character {
 		super(name, ALLY);
 	}
 	
-	
 	public Player (String name, int level) {
 		super(name, ALLY, level);
 	}

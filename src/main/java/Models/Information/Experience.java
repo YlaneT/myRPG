@@ -67,6 +67,7 @@ public class Experience {
 		}
 		if (amount > 0) {
 			this.experience += amount;
+			this.total_experience += amount;
 		}
 	}
 	
